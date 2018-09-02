@@ -3,7 +3,7 @@
 USING_NS_CC;
 using namespace std;
 
-cocos2d::CCRect Tools::CCRectInset(cocos2d::CCRect& rect,float dx,float dy){
+cocos2d::CCRect Tools::CCRectInset(cocos2d::Rect& rect,float dx,float dy){
 	 rect.origin.x += dx;
 	 rect.size.width -= dx * 2;
 
@@ -13,7 +13,7 @@ cocos2d::CCRect Tools::CCRectInset(cocos2d::CCRect& rect,float dx,float dy){
 	 return rect;
  }
 //移动
-cocos2d::CCRect Tools::CCRectOffset(cocos2d::CCRect& rect, float dx, float dy) {
+cocos2d::CCRect Tools::CCRectOffset(cocos2d::Rect& rect, float dx, float dy) {
 	rect.origin.x += dx;
 	
 	rect.origin.y += dy;
@@ -35,11 +35,11 @@ cocos2d::CCRect Tools::getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::C
 
 }
 
-const wchar_t* Tools::GetWC(const char *c)
+/*const wchar_t* Tools::GetWC(const char *c)
 {
 	const size_t cSize = strlen(c) + 1;
 	wchar_t* wc = new wchar_t[cSize];
 	mbstowcs(wc, c, cSize);
 
 	return wc;
-}
+}*/

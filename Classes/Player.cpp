@@ -86,7 +86,9 @@ void Player::update(float delta) {
 }
 cocos2d::CCRect Player::collisionBoundingBox()
 {   //修改图片边缘空白的误差
-	cocos2d::CCRect collisionBox = Tools::CCRectInset(this->boundingBox(),3.f,0.f);
+
+    cocos2d::Rect box = this->boundingBox();
+	cocos2d::CCRect collisionBox = Tools::CCRectInset(box,3.f,0.f);
 
 	CCPoint diff = ccpSub(this->_desiredPosition, this->getPosition()); //玩家当前距离与目的地的差距
 

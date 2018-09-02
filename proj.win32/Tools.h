@@ -10,9 +10,9 @@ public:
 
 	static cocos2d::CCRect CCRectOffset(cocos2d::CCRect& rect, float dx, float dy);
 	
-	static cocos2d::CCRect Tools::getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::CCRect& tileRect);
+	static cocos2d::CCRect getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::CCRect& tileRect);
 
-	static const wchar_t* Tools::GetWC(const char *c);
+	static const wchar_t* GetWC(const char *c);
 };
 #endif // !_TOOLS_H_
 #pragma once

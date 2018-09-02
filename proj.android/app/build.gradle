@@ -5,7 +5,7 @@ android {
     buildToolsVersion PROP_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId "com.sduhyd.cocos2d"
+        applicationId "com.sduhyd.cocos2dx"
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
         versionCode 1
@@ -37,7 +37,6 @@ android {
         ndk {
             abiFilters = []
             abiFilters.addAll(PROP_APP_ABI.split(':').collect{it as String})
-            //abiFilters 'armeabi-v7a'
         }
     }
 
@@ -87,7 +86,7 @@ android {
 
             externalNativeBuild {
                 ndkBuild {
-                   arguments 'NDK_DEBUG=0'
+                    arguments 'NDK_DEBUG=0'
                 }
             }
         }

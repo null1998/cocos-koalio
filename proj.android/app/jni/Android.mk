@@ -13,8 +13,12 @@ LOCAL_MODULE_FILENAME := libMyGame
 
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/AppDelegate.cpp \
-                   $(LOCAL_PATH)/../../../Classes/HelloWorldScene.cpp
-
+                   $(LOCAL_PATH)/../../../Classes/HelloWorldScene.cpp\
+                   $(LOCAL_PATH)/../../../Classes/FirstScene.cpp\
+                   $(LOCAL_PATH)/../../../Classes/GameLayer.cpp\
+                   $(LOCAL_PATH)/../../../Classes/Player.cpp\
+                   $(LOCAL_PATH)/../../../Classes/TileRect.cpp\
+                   $(LOCAL_PATH)/../../../Classes/Tools.cpp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
 # _COCOS_HEADER_ANDROID_BEGIN
