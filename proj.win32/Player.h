@@ -25,6 +25,8 @@ public:
 
 	bool _forwardMarch;  //是否向前走
 
+	bool _backMarch;
+
 	bool _mightAsWellJump; //可以跳跃吗？
 public:
 	Player(void);

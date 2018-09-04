@@ -44,7 +44,7 @@ bool FirstScene::init()
 
 	//audio->playBackgroundMusic("level1.mp3");
 
-	audio->playBackgroundMusic("Mario_BGM.mp3");
+	audio->playBackgroundMusic("Mario_BGM.mp3",true);
 
 	CCLayerColor* blueSky = CCLayerColor::create(ccc4(100,100,250,255));
 
@@ -69,7 +69,7 @@ bool FirstScene::init()
 
 			Player::getInstance()->_mightAsWellJump = true;
 
-			Player::getInstance()->velocity = ccp(Player::getInstance()->velocity.x, 350.f);
+			Player::getInstance()->velocity = ccp(Player::getInstance()->velocity.x, 385.f);
 
 			Player::getInstance()->_onGround = false;
 
@@ -77,11 +77,17 @@ bool FirstScene::init()
 
 
 		}
-		if(touchLocation.x <= 640){
+		if(touchLocation.x <= 640&&touchLocation.x>=250){
 
 			Player::getInstance()->_forwardMarch = true;
 			
 		}
+		if (touchLocation.x<250) {
+
+			Player::getInstance()->_backMarch = true;
+
+		}
+
 		
 		return true;
 	};
@@ -91,6 +97,8 @@ bool FirstScene::init()
 		Player::getInstance()->_mightAsWellJump = false;
 
 		Player::getInstance()->_forwardMarch = false;
+
+		Player::getInstance()->_backMarch = false;
 
 		return true;
 	};
@@ -103,11 +111,11 @@ bool FirstScene::init()
 
 	 layer->addChild(map);
 
-	 map->addChild(Player::getInstance());
+	 map->addChild(Player::getInstance(),1);
 	
      walls = map->layerNamed("walls");
 
-	// hazards = map->layerNamed("hazards");
+	 hazards = map->layerNamed("hazards");
 
 	 this->scheduleUpdate();
 	
@@ -128,7 +136,7 @@ void FirstScene::update(float delta)
 	this->checkForAndResolveCollisions(Player::getInstance());
 
 	//¼ì²âÊÇ·ñ´¥ÅöÏÝÚå
-	//this->checkHazardCollisions(Player::getInstance());
+	this->checkHazardCollisions(Player::getInstance());
 
 	this->setViewpointCenter(Player::getInstance()->getPosition());
 
@@ -324,6 +332,10 @@ void FirstScene::gameOver(bool isWon) {
 	if (isWon)
 	{
 		result = CCString::create("You Won!");
+
+		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+
+		SimpleAudioEngine::sharedEngine()->playEffect("gohome.mp3");
 	}
 	else {
 
@@ -388,7 +400,7 @@ void FirstScene::restart() {
 
 void FirstScene::getWin()
 {
-	if (Player::getInstance()->getPositionX()>3300.f)
+	if (Player::getInstance()->getPositionX()>4608.f)
 	{
 		this->gameOver(true);
 	}
