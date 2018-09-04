@@ -48,44 +48,42 @@ Player* Player::getInstance() {
 
 void Player::update(float delta) {
 
-	CCPoint gravity = ccp(0.f, -350.f);//ï¿½ï¿½ï¿½ï¿½
+	CCPoint gravity = ccp(0.f, -350.f);//ÖØÁ¦
 
-	CCPoint gravityStep = ccpMult(gravity,delta);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+	CCPoint gravityStep = ccpMult(gravity,delta);//ÖØÁ¦¼ÓËÙ¶È
 
-	CCPoint forwardMove = ccp(800.f, 0.f); //Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	CCPoint forwardMove = ccp(800.f, 0.f); //Ç°½øµÄÁ¦
 
-	CCPoint forwardStep = ccpMult(forwardMove, delta);//Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+	CCPoint forwardStep = ccpMult(forwardMove, delta);//Ç°½ø¼ÓËÙ¶È
 
-	this->velocity = ccpAdd(this->velocity, gravityStep);//ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È¸Ä±ï¿½
+	this->velocity = ccpAdd(this->velocity, gravityStep);//ÊúÖ±·½ÏòËÙ¶È¸Ä±ä
 
-	this->velocity = ccp(this->velocity.x *0.9f, this->velocity.y);//Ä£ï¿½ï¿½Ä¦ï¿½ï¿½ï¿½ï¿½
+	this->velocity = ccp(this->velocity.x *0.9f, this->velocity.y);//Ä£ÄâÄ¦²ÁÁ¦
 
 	float jumpMax = 500.f;
-	//yï¿½Ù¶ï¿½ï¿½ï¿½ï¿½ï¿½
+	//yËÙ¶ÈÏŞÖÆ
 	
 	if (!this->_mightAsWellJump&&this->velocity.y > jumpMax)
 	{
 		this->velocity = ccp(this->velocity.x, jumpMax);
 	}
-	//Ç°ï¿½ï¿½Ê±Ë®Æ½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È¸Ä±ï¿½
+	//Ç°½øÊ±Ë®Æ½·½ÏòËÙ¶È¸Ä±ä
 	if (this->_forwardMarch)
 	{
-		this->velocity = ccpAdd(this->velocity, forwardStep); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Ù¶ï¿½Ê¸ï¿½ï¿½
+		this->velocity = ccpAdd(this->velocity, forwardStep); //¼ÓÉÏÏòÇ°µÄËÙ¶ÈÊ¸Á¿
 	}
-	//ï¿½àµ±ï¿½ï¿½Î»ï¿½ï¿½
+	//Ïàµ±ÓÚÎ»ÒÆ
 	CCPoint s = ccpMult(this->velocity, delta);
-	//ï¿½ï¿½Ò»Ö¡ï¿½ï¿½ÒªÈ¥ï¿½ï¿½Î»ï¿½ï¿½
+	//ÏÂÒ»Ö¡½«ÒªÈ¥µÄÎ»ÖÃ
 	this->_desiredPosition = ccpAdd(this->getPosition(), s);
 
 }
 cocos2d::CCRect Player::collisionBoundingBox()
-{   //ï¿½Ş¸ï¿½Í¼Æ¬ï¿½ï¿½Ôµï¿½Õ°×µï¿½ï¿½ï¿½î£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+{   //ĞŞ¸ÄÍ¼Æ¬±ßÔµ¿Õ°×µÄÎó²î£¬¼ÆËãÅö×²¾ØĞÎ
+	cocos2d::CCRect collisionBox = Tools::CCRectInset(this->boundingBox(),3.f,0.f);
 
-	CCRect box = this->boundingBox();
-	cocos2d::CCRect collisionBox = Tools::CCRectInset(box,3.f,0.f);
-
-	CCPoint diff = ccpSub(this->_desiredPosition, this->getPosition()); //ï¿½ï¿½Òµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ÄµØµÄ²ï¿½ï¿½
-	//ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ÒªÈ¥ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+	CCPoint diff = ccpSub(this->_desiredPosition, this->getPosition()); //Íæ¼Òµ±Ç°¾àÀëÓëÄ¿µÄµØµÄ²î¾à
+	//µÃµ½¼´½«ÒªÈ¥µÄÎ»ÖÃµÄÅö×²¾ØĞÎ
 	CCRect desireBoundingBox = Tools::CCRectOffset(collisionBox, diff.x, diff.y);
 
 	return desireBoundingBox;

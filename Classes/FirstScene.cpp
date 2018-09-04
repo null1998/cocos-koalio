@@ -33,10 +33,10 @@ bool FirstScene::init()
 		return false;
 	}
 	isGameOver = false;
-	//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ß´ï¿½
+	//»ñÈ¡Õû¸öÊÖ»ú¿ÉÊÓÆÁÄ»³ß´ç
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
-	//ï¿½ï¿½È¡ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//»ñÈ¡ÊÖ»ú¿ÉÊÓÆÁÔ­µãµÄ×ø±ê
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	//music
@@ -127,7 +127,7 @@ void FirstScene::update(float delta)
 
 	this->checkForAndResolveCollisions(Player::getInstance());
 
-	//ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//¼ì²âÊÇ·ñ´¥ÅöÏÝÚå
 	//this->checkHazardCollisions(Player::getInstance());
 
 	this->setViewpointCenter(Player::getInstance()->getPosition());
@@ -136,20 +136,20 @@ void FirstScene::update(float delta)
 
 CCPoint FirstScene::tileCoordForPosition(cocos2d::CCPoint position)
 {
-	float x = floor(position.x / map->getTileSize().width); //Î»ï¿½ï¿½xÖµ/ï¿½ï¿½Í¼Ò»ï¿½ï¿½tileï¿½Ä¿ï¿½È¼ï¿½ï¿½ÉµÃµï¿½xï¿½ï¿½ï¿½ï¿½
+	float x = floor(position.x / map->getTileSize().width); //Î»ÖÃxÖµ/µØÍ¼Ò»¿étileµÄ¿í¶È¼´¿ÉµÃµ½x×ø±ê
 
-	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //ï¿½ï¿½Í¼ï¿½ï¿½Êµï¿½Ê¸ß¶ï¿½
+	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //µØÍ¼µÄÊµ¼Ê¸ß¶È
 
-	float y = floor((levelHeightInPixels - position.y) / map->getTileSize().height);  //ï¿½ï¿½Æ¬ï¿½ï¿½Í¼ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ç£ï¿½ï¿½ï¿½cocos2d-xï¿½Ç²ï¿½Í¬ï¿½ï¿½(2dxÔ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½)
+	float y = floor((levelHeightInPixels - position.y) / map->getTileSize().height);  //ÍßÆ¬µØÍ¼µÄÔ­µãÔÚ×óÉÏ½Ç£¬Óëcocos2d-xÊÇ²»Í¬µÄ(2dxÔ­µãÔÚ×óÏÂ½Ç)
 
 	return ccp(x, y);
 }
 
 TileRect FirstScene::tileRectFromTileCoords(cocos2d::CCPoint tileCoords)
 {
-	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //ï¿½ï¿½Í¼ï¿½ï¿½Êµï¿½Ê¸ß¶ï¿½
+	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //µØÍ¼µÄÊµ¼Ê¸ß¶È
 
-    //ï¿½Ñµï¿½Í¼ï¿½ï¿½ï¿½ï¿½tileCoords×ªï¿½ï¿½ÎªÊµï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
+    //°ÑµØÍ¼×ø±êtileCoords×ª»¯ÎªÊµ¼ÊÓÎÏ·ÖÐµÄ×ø±ê
 	CCPoint origin = ccp(tileCoords.x * map->getTileSize().width, levelHeightInPixels - ((tileCoords.y + 1)*map->getTileSize().height));
 
 	return TileRect(origin.x, origin.y, map->getTileSize().width, map->getTileSize().height);
@@ -157,32 +157,32 @@ TileRect FirstScene::tileRectFromTileCoords(cocos2d::CCPoint tileCoords)
 
 TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosition, cocos2d::CCTMXLayer* layer)
 {
-	int indexes[8] = { 7, 1, 5, 3, 8, 6, 2, 0 };//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë³ï¿½ï¿½
+	int indexes[8] = { 7, 1, 5, 3, 8, 6, 2, 0 };//ÓÅÏÈÏÂÉÏÓÒ×óµÄË³Ðò
 
 	TileRect *bounds = new TileRect[8];
 	
-	CCPoint plPos = this->tileCoordForPosition(playerPosition); //ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½Í¼ï¿½ï¿½ï¿½ï¿½
+	CCPoint plPos = this->tileCoordForPosition(playerPosition); //·µ»Ø¾«ÁéµÄÍßÆ¬µØÍ¼×ø±ê
 
 	auto layerSize = layer->getLayerSize();
 
-	//È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Üµï¿½8ï¿½ï¿½tileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¡³ö»·ÈÆÔÚ¾«ÁéËÄÖÜµÄ8¸ötile£¬´ÓÉÏÖÁÏÂÃ¿ÐÐÈý¸ö
 	for (int i = 0; i<8; i++)
 	{
 		auto index = indexes[i];
 
-		int c = index % 3;   //ï¿½àµ±ï¿½Úµï¿½Ç°iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		int c = index % 3;   //Ïàµ±ÓÚµ±Ç°iËù´¦µÄÁÐ
 
-		int r = (int)(index / 3); //ï¿½àµ±ï¿½Úµï¿½Ç°iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		int r = (int)(index / 3); //Ïàµ±ÓÚµ±Ç°iËù´¦µÄÐÐ
 
-		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));//ï¿½Ë¸ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½
+		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));//°Ë¸öÍßÆ¬¸÷×ÔµÄÍßÆ¬×ø±ê
 
-		//ï¿½Ð¶ï¿½wallï¿½Ú´Ë´ï¿½ï¿½Ç·ï¿½ï¿½ï¿½tileï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Îª0
+		//ÅÐ¶ÏwallÔÚ´Ë´¦ÊÇ·ñÓÐtile£¬ÈôÃ»ÓÐÔòÎª0
 		int tgid = layer->tileGIDAt(tilePos);
 
 		if (tilePos.x < 0 || tilePos.x >= layerSize.width) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ê¶
+			//³¬³öµØÍ¼±êÊ¶
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -192,7 +192,7 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 		if (tilePos.y < 0 || tilePos.y >= layerSize.height) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½Ê¶
+			//³¬³öµØÍ¼±êÊ¶
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -214,21 +214,21 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 
 void FirstScene::checkForAndResolveCollisions(Player* player)
 {
-	//TileRectÖ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//TileRectÖ¸ÕëÊý×é
 	TileRect* tilesArray = this->getSurroundingTilesAtPosition(player->_desiredPosition, walls);//7, 1, 5, 3, 8, 6, 2, 0
 
 	for (int i = 0; i < 8; i++) {
 
-		TileRect tileRect = tilesArray[i];//ï¿½ï¿½Î§ï¿½Ë¸ï¿½tileï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+		TileRect tileRect = tilesArray[i];//ÖÜÎ§°Ë¸ötileµÄÅö×²¾ØÐÎ
 
 		if (tilesArray[i].y <=0){
 
 			this->gameOver(false);
 
 		}
-		//ï¿½ï¿½ï¿½ï¿½Æ¬Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½×²
+		//ÈôÍßÆ¬Îª¿ÕÔòÎÞÐè¼ì²âÊÇ·ñÅö×²
 		if (tileRect.tgid) {
-			auto isTileOnRight = i == 2 || i == 4 || i == 6;//ï¿½Ò²ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			auto isTileOnRight = i == 2 || i == 4 || i == 6;//ÓÒ²àÒ»ÅÅÈý¸ö
 			auto isTileOnLeft = i == 3 || i == 5 || i == 7;
 			auto isTileOnTop = i == 1 || i == 6 || i == 7;
 			auto isTileOnBottom = i == 0 || i == 4 || i == 5;
@@ -238,73 +238,61 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 
 			auto isFall = Player::getInstance()->velocity.y <= 0;
 			auto isJump = Player::getInstance()->velocity.y >= 0;
-			CCRect playerRect = player->collisionBoundingBox();  //ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ÄµØ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+			CCRect playerRect = player->collisionBoundingBox();  //½«Òªµ½´ïµÄµØ·½µÄÍæ¼ÒÅö×²¾ØÐÎ
 
-			//ï¿½Ç·ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½Ð¡
+			//ÊÇ·ñÅö×²£¬²»Åö×²ÔòÎÞÐè¼ÆËãÅö×²½»²æ¾ØÐÎ´óÐ¡
 			auto isCollideWithPlayer = tileRect.intersectsRect(playerRect);
 			if (!isCollideWithPlayer) {
 				continue;
 			}
-			cocos2d::CCRect intersection = Tools::getIntersectsRect(playerRect, tileRect);// È¡ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+			cocos2d::CCRect intersection = Tools::getIntersectsRect(playerRect, tileRect);// È¡µÃÏà×²¾ØÐÎ
 
 		
 			if (intersection.size.height > 0) {
 				if (isTileOnRight && isMoveRight) {
-					//ï¿½Ò±ßµï¿½tile2 5 8
+					//ÓÒ±ßµÄtile2 5 8
 					player->_desiredPosition = ccp(player->_desiredPosition.x - intersection.size.width, player->_desiredPosition.y);
 
 					player->velocity = ccp(0.f, player->velocity.y);
 
-					//char chInput[512];
-					//sprintf(chInput, "right tgid:%d\n", tileRect.tgid);
-					//const wchar_t* w = Tools::GetWC(chInput);
-					//OutputDebugString(w);
-
+					/*char chInput[512];
+					sprintf(chInput, "right tgid:%d\n", tileRect.tgid);
+					const wchar_t* w = Tools::GetWC(chInput);
+					OutputDebugString(w);*/
 				}
 				else if (isTileOnLeft && isMoveLeft) {
-					//ï¿½ï¿½ßµï¿½tile0 3 6
+					//×ó±ßµÄtile0 3 6
 					player->_desiredPosition = ccp(player->_desiredPosition.x + intersection.size.width, player->_desiredPosition.y);
 
 					player->velocity = ccp(0.f, player->velocity.y);
-
-					//char chInput[512];
-					//sprintf(chInput, "left tgid:%d\n", tileRect.tgid);
-					//const wchar_t* w = Tools::GetWC(chInput);
-					//OutputDebugString(w);
 				}
 			}
 			
 			if (intersection.size.width > 0) {
 				if (isTileOnBottom && isFall) {
-					//tileï¿½ï¿½koalaï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½äµ½ï¿½ï¿½tileï¿½ï¿½ 6 7 8
+					//tileÔÚkoalaÕýÏÂ·½ ¿¼À­Âäµ½ÁËtileÉÏ 6 7 8
 					player->_desiredPosition = ccp(player->_desiredPosition.x, player->_desiredPosition.y + intersection.size.height);
 				
 					player->velocity = ccp(player->velocity.x, 0.f);
 
 					player->_onGround = true;
 
-					//char chInput[512];
-					//sprintf(chInput, "fall tgid:%d\n", tileRect.tgid);
-					//const wchar_t* w = Tools::GetWC(chInput);
-					//OutputDebugString(w);
+					
 				}
 				else if (isTileOnTop && isJump) {
-					//ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½tileï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0 1 2
+					//¿¼À­Í·¶¥µ½tile£¬ÒªÈÃÖ÷½ÇÏòÏÂÒÆ0 1 2
 					player->_desiredPosition = ccp(player->_desiredPosition.x, player->_desiredPosition.y - intersection.size.height);
 				
 					player->velocity = ccp(player->velocity.x, 0.f);
 
-					//char chInput[512];
-					//sprintf(chInput, "jump tgid:%d\n", tileRect.tgid);
-					//const wchar_t* w = Tools::GetWC(chInput);
-					//OutputDebugString(w);
+				
 				}
 			}
 
 		}
 
 	}
-	player->setPosition(player->_desiredPosition); //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ÄµØ·ï¿½*/
+	player->setPosition(player->_desiredPosition); //°ÑÖ÷½ÇÎ»ÖÃÉè¶¨µ½ËüÆÚÍûÈ¥µÄµØ·½*/
 }
 
 void FirstScene::checkHazardCollisions(Player* player) {
@@ -317,7 +305,7 @@ void FirstScene::checkHazardCollisions(Player* player) {
 
 		if (hazardRect.tgid) {
 
-			CCRect playerRect = player->collisionBoundingBox();  //ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ÄµØ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²ï¿½ï¿½ï¿½ï¿½
+			CCRect playerRect = player->collisionBoundingBox();  //½«Òªµ½´ïµÄµØ·½µÄÍæ¼ÒÅö×²¾ØÐÎ
 
 			if (hazardRect.intersectsRect(playerRect)) {
 
@@ -387,7 +375,7 @@ void FirstScene::restart() {
 
 	Player::getInstance()->_onGround=true;
 
-	Player::getInstance()->_forwardMarch=false;  //ï¿½Ç·ï¿½ï¿½ï¿½Ç°ï¿½ï¿½
+	Player::getInstance()->_forwardMarch=false;  //ÊÇ·ñÏòÇ°×ß
 
 	Player::getInstance()->_mightAsWellJump = false;
 
@@ -410,11 +398,11 @@ void FirstScene::setViewpointCenter(cocos2d::CCPoint pos)
 {
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
-	//ï¿½Þ¶ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ÏÞ¶¨½ÇÉ«²»ÄÜ³¬¹ý°ëÆÁ
 	int x = MAX(pos.x, winSize.width / 2);
 	int y = MAX(pos.y, winSize.height / 2);
 
-	//ï¿½Þ¶ï¿½ï¿½ï¿½É«ï¿½ï¿½ï¿½ï¿½ï¿½Ü³ï¿½ï¿½ï¿½Ä»
+	//ÏÞ¶¨½ÇÉ«²»ÄÜÅÜ³öÆÁÄ»
 	x = MIN(x, (map->getMapSize().width * map->getTileSize().width) - winSize.width / 2);
 	y = MIN(y, (map->getMapSize().height * map->getTileSize().height) - winSize.height / 2);
 
@@ -424,7 +412,7 @@ void FirstScene::setViewpointCenter(cocos2d::CCPoint pos)
 
 	CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
 
-	//ï¿½è¶¨Ò»ï¿½Âµï¿½Í¼ï¿½ï¿½Î»ï¿½ï¿½
+	//Éè¶¨Ò»ÏÂµØÍ¼µÄÎ»ÖÃ
 	map->setPosition(viewPoint);
 }
 
