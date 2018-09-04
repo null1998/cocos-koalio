@@ -28,7 +28,8 @@ bool Player::setStatus(ANIMATION_STATUS status)
 	case RUN:
 		break;
 	case STAND:
-	    bRet = CCSprite::initWithFile("koalio_stand.png");
+	   // bRet = CCSprite::initWithFile("koalio_stand.png");
+		bRet = CCSprite::initWithFile("Mario.png");
 		velocity = ccp(0.f, 0.f);
 		break;
 	case FALL:

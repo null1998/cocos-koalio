@@ -84,7 +84,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     if(!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
-        glview = GLViewImpl::createWithRect("HelloWorld", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
+        glview = GLViewImpl::createWithRect("HelloWorld", cocos2d::Rect(0, 0, 1280, 720));
 #else
         glview = GLViewImpl::create("HelloWorld");
 #endif
@@ -98,7 +98,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0f / 60);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width,designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+   /* glview->setDesignResolutionSize(designResolutionSize.width,designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
     if (frameSize.height > mediumResolutionSize.height)
@@ -114,7 +114,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     else
     {        
         director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
-    }
+    }*/
 
     register_all_packages();
 
@@ -122,7 +122,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	player->setStatus(ANIMATION_STATUS::STAND);
 
-	player->setPosition(ccp(50, 50));
+	player->setPosition(ccp(250, 250));
 
 	player->velocity = ccp(0, 0);
 

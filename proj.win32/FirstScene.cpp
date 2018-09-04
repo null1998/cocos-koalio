@@ -42,14 +42,18 @@ bool FirstScene::init()
 	//music
 	SimpleAudioEngine* audio = SimpleAudioEngine::sharedEngine();
 
-	audio->playBackgroundMusic("level1.mp3");
+	//audio->playBackgroundMusic("level1.mp3");
+
+	audio->playBackgroundMusic("Mario_BGM.mp3");
 
 	CCLayerColor* blueSky = CCLayerColor::create(ccc4(100,100,250,255));
 
 	addChild(blueSky);
 
 
-	map = CCTMXTiledMap::create("level1.tmx");
+	//map = CCTMXTiledMap::create("level1.tmx");
+
+	map= CCTMXTiledMap::create("untitled.tmx");
 
 	auto layer = GameLayer::createInstance();
 
@@ -59,18 +63,21 @@ bool FirstScene::init()
 
 		CCPoint touchLocation = touch->getLocation();
 
-		if (touchLocation.x > 240&&Player::getInstance()->_onGround) {
+		if (touchLocation.x > 640&&Player::getInstance()->_onGround) {
+
+			SimpleAudioEngine::sharedEngine()->playEffect("Mario_jump.mp3");
 
 			Player::getInstance()->_mightAsWellJump = true;
 
-			Player::getInstance()->velocity = ccp(Player::getInstance()->velocity.x, 230.f);
+			Player::getInstance()->velocity = ccp(Player::getInstance()->velocity.x, 350.f);
 
 			Player::getInstance()->_onGround = false;
 
-			SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
+			//SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
+
 
 		}
-		if(touchLocation.x <= 240){
+		if(touchLocation.x <= 640){
 
 			Player::getInstance()->_forwardMarch = true;
 			
@@ -100,7 +107,7 @@ bool FirstScene::init()
 	
      walls = map->layerNamed("walls");
 
-	 hazards = map->layerNamed("hazards");
+	// hazards = map->layerNamed("hazards");
 
 	 this->scheduleUpdate();
 	
@@ -121,7 +128,7 @@ void FirstScene::update(float delta)
 	this->checkForAndResolveCollisions(Player::getInstance());
 
 	//¼ì²âÊÇ·ñ´¥ÅöÏÝÚå
-	this->checkHazardCollisions(Player::getInstance());
+	//this->checkHazardCollisions(Player::getInstance());
 
 	this->setViewpointCenter(Player::getInstance()->getPosition());
 
@@ -334,15 +341,15 @@ void FirstScene::gameOver(bool isWon) {
 
 		result = CCString::create("You Died!");
 
-		SimpleAudioEngine::sharedEngine()->playEffect("hurt.wav");
+		SimpleAudioEngine::sharedEngine()->playEffect("Mario_died.mp3");
 	}
-	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 40);
+	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 80);
 
-	label->setPosition(ccp(240, 200));
+	label->setPosition(Vec2(640.f,450.f));
 
 	this->addChild(label);
 
-	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 24);
+	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 40);
 
 	replayLabel->enableGlow(Color4B::YELLOW);
 
@@ -363,11 +370,11 @@ void FirstScene::gameOver(bool isWon) {
 
 	auto replayMenu = Menu::create(replayMenuItem, NULL);
 
-	replayMenu->setPosition(Vec2(240, -100));
+	replayMenu->setPosition(Vec2(640.f,0.f));
 
 	this->addChild(replayMenu);
 
-	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, 250));
+	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, 360.f));
 
 	replayMenu->runAction(slideIn);
 
@@ -384,9 +391,9 @@ void FirstScene::restart() {
 
 	Player::getInstance()->velocity = ccp(0.f, 0.f);
 
-	Player::getInstance()->_desiredPosition = (ccp(50.f, 50.f));
+	Player::getInstance()->_desiredPosition = (ccp(250.f, 250.f));
 
-	Player::getInstance()->setPosition(ccp(50.f,50.f));
+	Player::getInstance()->setPosition(ccp(250.f,250.f));
 }
 
 void FirstScene::getWin()
