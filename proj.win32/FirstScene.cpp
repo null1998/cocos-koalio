@@ -341,6 +341,8 @@ void FirstScene::gameOver(bool isWon) {
 
 		result = CCString::create("You Died!");
 
+		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+
 		SimpleAudioEngine::sharedEngine()->playEffect("Mario_died.mp3");
 	}
 	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 80);
