@@ -50,9 +50,9 @@ bool HelloWorld::init()
     {
         return false;
     }
-
+	//ÆÁÄ»³ß´ç
     auto visibleSize = Director::getInstance()->getVisibleSize();
-
+	//×ø±êÔ­µã
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     auto label = Label::createWithTTF("Super koalio", "fonts/Marker Felt.ttf", 50);
