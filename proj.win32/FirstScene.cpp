@@ -115,14 +115,16 @@ void FirstScene::update(float delta)
 	    return;
 
     }
-	this->checkHazardCollisions(Player::getInstance());
 
 	this->getWin();
 
 	this->checkForAndResolveCollisions(Player::getInstance());
 
+	//检测是否触碰陷阱
+	this->checkHazardCollisions(Player::getInstance());
+
 	this->setViewpointCenter(Player::getInstance()->getPosition());
-	
+
 }
 
 CCPoint FirstScene::tileCoordForPosition(cocos2d::CCPoint position)
@@ -165,15 +167,15 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 
 		int r = (int)(index / 3); //相当于当前i所处的行
 
-		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));
+		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));//八个瓦片各自的瓦片坐标
 
-		//判断wall在此处是否有tile
+		//判断wall在此处是否有tile，若没有则为0
 		int tgid = layer->tileGIDAt(tilePos);
 
 		if (tilePos.x < 0 || tilePos.x >= layerSize.width) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-
+			//超出地图标识
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -183,7 +185,7 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 		if (tilePos.y < 0 || tilePos.y >= layerSize.height) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-
+			//超出地图标识
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -217,9 +219,9 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 			this->gameOver(false);
 
 		}
-
+		//若瓦片为空则无需检测是否碰撞
 		if (tileRect.tgid) {
-			auto isTileOnRight = i == 2 || i == 4 || i == 6;
+			auto isTileOnRight = i == 2 || i == 4 || i == 6;//右侧一排三个
 			auto isTileOnLeft = i == 3 || i == 5 || i == 7;
 			auto isTileOnTop = i == 1 || i == 6 || i == 7;
 			auto isTileOnBottom = i == 0 || i == 4 || i == 5;
@@ -231,14 +233,14 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 			auto isJump = Player::getInstance()->velocity.y >= 0;
 			CCRect playerRect = player->collisionBoundingBox();  //将要到达的地方的玩家碰撞矩形
 
-			//是否碰撞
+			//是否碰撞，不碰撞则无需计算碰撞交叉矩形大小
 			auto isCollideWithPlayer = tileRect.intersectsRect(playerRect);
 			if (!isCollideWithPlayer) {
 				continue;
 			}
 			cocos2d::CCRect intersection = Tools::getIntersectsRect(playerRect, tileRect);// 取得相撞矩形
 
-			
+		
 			if (intersection.size.height > 0) {
 				if (isTileOnRight && isMoveRight) {
 					//右边的tile2 5 8
