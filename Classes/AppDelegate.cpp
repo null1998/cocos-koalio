@@ -122,7 +122,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	player->setStatus(ANIMATION_STATUS::STAND);
 
-	player->setPosition(ccp(250, 250));
+	player->setPosition(ccp(400, 400));
 
 	player->velocity = ccp(0, 0);
 

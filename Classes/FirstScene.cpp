@@ -33,22 +33,27 @@ bool FirstScene::init()
 		return false;
 	}
 	isGameOver = false;
-	//获取整个手机可视屏幕尺寸
+	//��ȡ�����ֻ�������Ļ�ߴ�
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
-	//获取手机可视屏原点的坐标
+	//��ȡ�ֻ�������ԭ�������
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	//music
 	SimpleAudioEngine* audio = SimpleAudioEngine::sharedEngine();
 
-	audio->playBackgroundMusic("level1.mp3");
+	//audio->playBackgroundMusic("level1.mp3");
+
+	audio->playBackgroundMusic("Mario_BGM.mp3");
 
 	CCLayerColor* blueSky = CCLayerColor::create(ccc4(100,100,250,255));
 
 	addChild(blueSky);
 
-	 map = CCTMXTiledMap::create("level1.tmx");
 
+	//map = CCTMXTiledMap::create("level1.tmx");
+
+	map= CCTMXTiledMap::create("untitled.tmx");
 
 	auto layer = GameLayer::createInstance();
 
@@ -58,7 +63,9 @@ bool FirstScene::init()
 
 		CCPoint touchLocation = touch->getLocation();
 
-		if (touchLocation.x > 240&&Player::getInstance()->_onGround) {
+		if (touchLocation.x > 640&&Player::getInstance()->_onGround) {
+
+			SimpleAudioEngine::sharedEngine()->playEffect("Mario_jump.mp3");
 
 			Player::getInstance()->_mightAsWellJump = true;
 
@@ -66,8 +73,12 @@ bool FirstScene::init()
 
 			Player::getInstance()->_onGround = false;
 
+			//SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
+
+
 		}
-		else {
+		if(touchLocation.x <= 640){
+
 			Player::getInstance()->_forwardMarch = true;
 			
 		}
@@ -96,7 +107,7 @@ bool FirstScene::init()
 	
      walls = map->layerNamed("walls");
 
-	 hazards = map->layerNamed("hazards");
+	// hazards = map->layerNamed("hazards");
 
 	 this->scheduleUpdate();
 	
@@ -111,32 +122,34 @@ void FirstScene::update(float delta)
 	    return;
 
     }
-	this->checkHazardCollisions(Player::getInstance());
 
 	this->getWin();
 
 	this->checkForAndResolveCollisions(Player::getInstance());
 
+	//����Ƿ�������
+	//this->checkHazardCollisions(Player::getInstance());
+
 	this->setViewpointCenter(Player::getInstance()->getPosition());
-	
+
 }
 
 CCPoint FirstScene::tileCoordForPosition(cocos2d::CCPoint position)
 {
-	float x = floor(position.x / map->getTileSize().width); //位置x值/地图一块tile的宽度即可得到x坐标
+	float x = floor(position.x / map->getTileSize().width); //λ��xֵ/��ͼһ��tile�Ŀ�ȼ��ɵõ�x����
 
-	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //地图的实际高度
+	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //��ͼ��ʵ�ʸ߶�
 
-	float y = floor((levelHeightInPixels - position.y) / map->getTileSize().height);  //瓦片地图的原点在左上角，与cocos2d-x是不同的(2dx原点在左下角)
+	float y = floor((levelHeightInPixels - position.y) / map->getTileSize().height);  //��Ƭ��ͼ��ԭ�������Ͻǣ���cocos2d-x�ǲ�ͬ��(2dxԭ�������½�)
 
 	return ccp(x, y);
 }
 
 TileRect FirstScene::tileRectFromTileCoords(cocos2d::CCPoint tileCoords)
 {
-	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //地图的实际高度
+	float levelHeightInPixels = map->getMapSize().height * map->getTileSize().height; //��ͼ��ʵ�ʸ߶�
 
-    //把地图坐标tileCoords转化为实际游戏中的坐标
+    //�ѵ�ͼ����tileCoordsת��Ϊʵ����Ϸ�е�����
 	CCPoint origin = ccp(tileCoords.x * map->getTileSize().width, levelHeightInPixels - ((tileCoords.y + 1)*map->getTileSize().height));
 
 	return TileRect(origin.x, origin.y, map->getTileSize().width, map->getTileSize().height);
@@ -144,32 +157,32 @@ TileRect FirstScene::tileRectFromTileCoords(cocos2d::CCPoint tileCoords)
 
 TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosition, cocos2d::CCTMXLayer* layer)
 {
-	int indexes[8] = { 7, 1, 5, 3, 8, 6, 2, 0 };//下上右左的顺序
+	int indexes[8] = { 7, 1, 5, 3, 8, 6, 2, 0 };//�������������˳��
 
 	TileRect *bounds = new TileRect[8];
 	
-	CCPoint plPos = this->tileCoordForPosition(playerPosition); //返回精灵的瓦片地图坐标
+	CCPoint plPos = this->tileCoordForPosition(playerPosition); //���ؾ������Ƭ��ͼ����
 
 	auto layerSize = layer->getLayerSize();
 
-	//取出环绕在精灵四周的8个tile，从上至下每行三个
+	//ȡ�������ھ������ܵ�8��tile����������ÿ������
 	for (int i = 0; i<8; i++)
 	{
 		auto index = indexes[i];
 
-		int c = index % 3;   //相当于当前i所处的列
+		int c = index % 3;   //�൱�ڵ�ǰi��������
 
-		int r = (int)(index / 3); //相当于当前i所处的行
+		int r = (int)(index / 3); //�൱�ڵ�ǰi��������
 
-		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));
+		CCPoint tilePos = ccp(plPos.x + (c - 1), plPos.y + (r - 1));//�˸���Ƭ���Ե���Ƭ����
 
-		//判断wall在此处是否有tile
+		//�ж�wall�ڴ˴��Ƿ���tile����û����Ϊ0
 		int tgid = layer->tileGIDAt(tilePos);
 
 		if (tilePos.x < 0 || tilePos.x >= layerSize.width) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-
+			//������ͼ��ʶ
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -179,7 +192,7 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 		if (tilePos.y < 0 || tilePos.y >= layerSize.height) {
 
 			bounds[i] = this->tileRectFromTileCoords(tilePos);
-
+			//������ͼ��ʶ
 			bounds[i].isBarrier = true;
 
 			bounds[i].tgid = tgid;
@@ -201,21 +214,21 @@ TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint playerPosit
 
 void FirstScene::checkForAndResolveCollisions(Player* player)
 {
-	//TileRect指针数组
+	//TileRectָ������
 	TileRect* tilesArray = this->getSurroundingTilesAtPosition(player->_desiredPosition, walls);//7, 1, 5, 3, 8, 6, 2, 0
 
 	for (int i = 0; i < 8; i++) {
 
-		TileRect tileRect = tilesArray[i];//周围八个tile的碰撞矩形
+		TileRect tileRect = tilesArray[i];//��Χ�˸�tile����ײ����
 
 		if (tilesArray[i].y <=0){
 
 			this->gameOver(false);
 
 		}
-
+		//����ƬΪ�����������Ƿ���ײ
 		if (tileRect.tgid) {
-			auto isTileOnRight = i == 2 || i == 4 || i == 6;
+			auto isTileOnRight = i == 2 || i == 4 || i == 6;//�Ҳ�һ������
 			auto isTileOnLeft = i == 3 || i == 5 || i == 7;
 			auto isTileOnTop = i == 1 || i == 6 || i == 7;
 			auto isTileOnBottom = i == 0 || i == 4 || i == 5;
@@ -225,72 +238,73 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 
 			auto isFall = Player::getInstance()->velocity.y <= 0;
 			auto isJump = Player::getInstance()->velocity.y >= 0;
-			CCRect playerRect = player->collisionBoundingBox();  //将要到达的地方的玩家碰撞矩形
+			CCRect playerRect = player->collisionBoundingBox();  //��Ҫ����ĵط��������ײ����
 
+			//�Ƿ���ײ������ײ�����������ײ������δ�С
 			auto isCollideWithPlayer = tileRect.intersectsRect(playerRect);
 			if (!isCollideWithPlayer) {
 				continue;
 			}
-			cocos2d::CCRect intersection = Tools::getIntersectsRect(playerRect, tileRect);// 取得相撞部分
+			cocos2d::CCRect intersection = Tools::getIntersectsRect(playerRect, tileRect);// ȡ����ײ����
 
-			
+		
 			if (intersection.size.height > 0) {
 				if (isTileOnRight && isMoveRight) {
-					//右边的tile2 5 8
+					//�ұߵ�tile2 5 8
 					player->_desiredPosition = ccp(player->_desiredPosition.x - intersection.size.width, player->_desiredPosition.y);
 
 					player->velocity = ccp(0.f, player->velocity.y);
 
-					/*char chInput[512];
-					sprintf(chInput, "right tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);*/
+					//char chInput[512];
+					//sprintf(chInput, "right tgid:%d\n", tileRect.tgid);
+					//const wchar_t* w = Tools::GetWC(chInput);
+					//OutputDebugString(w);
 
 				}
 				else if (isTileOnLeft && isMoveLeft) {
-					//左边的tile0 3 6
+					//��ߵ�tile0 3 6
 					player->_desiredPosition = ccp(player->_desiredPosition.x + intersection.size.width, player->_desiredPosition.y);
 
 					player->velocity = ccp(0.f, player->velocity.y);
 
-					/*char chInput[512];
-					sprintf(chInput, "left tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);*/
+					//char chInput[512];
+					//sprintf(chInput, "left tgid:%d\n", tileRect.tgid);
+					//const wchar_t* w = Tools::GetWC(chInput);
+					//OutputDebugString(w);
 				}
 			}
 			
 			if (intersection.size.width > 0) {
 				if (isTileOnBottom && isFall) {
-					//tile在koala正下方 考拉落到了tile上 6 7 8
+					//tile��koala���·� �����䵽��tile�� 6 7 8
 					player->_desiredPosition = ccp(player->_desiredPosition.x, player->_desiredPosition.y + intersection.size.height);
 				
 					player->velocity = ccp(player->velocity.x, 0.f);
 
 					player->_onGround = true;
 
-					/*char chInput[512];
-					sprintf(chInput, "fall tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);*/
+					//char chInput[512];
+					//sprintf(chInput, "fall tgid:%d\n", tileRect.tgid);
+					//const wchar_t* w = Tools::GetWC(chInput);
+					//OutputDebugString(w);
 				}
 				else if (isTileOnTop && isJump) {
-					//考拉头顶到tile，要让主角向下移0 1 2
+					//����ͷ����tile��Ҫ������������0 1 2
 					player->_desiredPosition = ccp(player->_desiredPosition.x, player->_desiredPosition.y - intersection.size.height);
 				
 					player->velocity = ccp(player->velocity.x, 0.f);
 
-					/*char chInput[512];
-					sprintf(chInput, "jump tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);*/
+					//char chInput[512];
+					//sprintf(chInput, "jump tgid:%d\n", tileRect.tgid);
+					//const wchar_t* w = Tools::GetWC(chInput);
+					//OutputDebugString(w);
 				}
 			}
 
 		}
 
 	}
-	player->setPosition(player->_desiredPosition); //把主角位置设定到它期望去的地方*/
+	player->setPosition(player->_desiredPosition); //������λ���趨��������ȥ�ĵط�*/
 }
 
 void FirstScene::checkHazardCollisions(Player* player) {
@@ -303,7 +317,7 @@ void FirstScene::checkHazardCollisions(Player* player) {
 
 		if (hazardRect.tgid) {
 
-			CCRect playerRect = player->collisionBoundingBox();  //将要到达的地方的玩家碰撞矩形
+			CCRect playerRect = player->collisionBoundingBox();  //��Ҫ����ĵط��������ײ����
 
 			if (hazardRect.intersectsRect(playerRect)) {
 
@@ -327,15 +341,19 @@ void FirstScene::gameOver(bool isWon) {
 
 		result = CCString::create("You Died!");
 
-		SimpleAudioEngine::sharedEngine()->playEffect("hurt.wav");
+		SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+
+		SimpleAudioEngine::sharedEngine()->playEffect("Mario_died.mp3");
 	}
-	CCLabelTTF* diedLabel = CCLabelTTF::create(result->getCString(), "Marker Felt", 40);
+	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 80);
 
-	diedLabel->setPosition(ccp(240, 200));
+	label->setPosition(Vec2(640.f,450.f));
 
-	this->addChild(diedLabel);
+	this->addChild(label);
 
-	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 24);
+	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 40);
+
+	replayLabel->enableGlow(Color4B::YELLOW);
 
 	if (replayLabel == nullptr)
 	{
@@ -354,11 +372,11 @@ void FirstScene::gameOver(bool isWon) {
 
 	auto replayMenu = Menu::create(replayMenuItem, NULL);
 
-	replayMenu->setPosition(Vec2(240, -100));
+	replayMenu->setPosition(Vec2(640.f,0.f));
 
 	this->addChild(replayMenu);
 
-	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, 250));
+	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, 360.f));
 
 	replayMenu->runAction(slideIn);
 
@@ -369,15 +387,15 @@ void FirstScene::restart() {
 
 	Player::getInstance()->_onGround=true;
 
-	Player::getInstance()->_forwardMarch=false;  //是否向前走
+	Player::getInstance()->_forwardMarch=false;  //�Ƿ���ǰ��
 
 	Player::getInstance()->_mightAsWellJump = false;
 
 	Player::getInstance()->velocity = ccp(0.f, 0.f);
 
-	Player::getInstance()->_desiredPosition = (ccp(50.f, 50.f));
+	Player::getInstance()->_desiredPosition = (ccp(250.f, 250.f));
 
-	Player::getInstance()->setPosition(ccp(50.f,50.f));
+	Player::getInstance()->setPosition(ccp(250.f,250.f));
 }
 
 void FirstScene::getWin()
@@ -392,11 +410,11 @@ void FirstScene::setViewpointCenter(cocos2d::CCPoint pos)
 {
 	CCSize winSize = CCDirector::sharedDirector()->getWinSize();
 
-	//限定角色不能超过半屏
+	//�޶���ɫ���ܳ�������
 	int x = MAX(pos.x, winSize.width / 2);
 	int y = MAX(pos.y, winSize.height / 2);
 
-	//限定角色不能跑出屏幕
+	//�޶���ɫ�����ܳ���Ļ
 	x = MIN(x, (map->getMapSize().width * map->getTileSize().width) - winSize.width / 2);
 	y = MIN(y, (map->getMapSize().height * map->getTileSize().height) - winSize.height / 2);
 
@@ -406,7 +424,7 @@ void FirstScene::setViewpointCenter(cocos2d::CCPoint pos)
 
 	CCPoint viewPoint = ccpSub(centerOfView, actualPosition);
 
-	//设定一下地图的位置
+	//�趨һ�µ�ͼ��λ��
 	map->setPosition(viewPoint);
 }
 

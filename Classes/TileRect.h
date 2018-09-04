@@ -6,7 +6,9 @@
 class TileRect : public cocos2d::CCRect {
 
 public:
+	//每个瓦片特有id，若此处无瓦片则为0
 	int tgid;
+	//顶点游戏坐标与长宽。
 	float x, y, width, height;
 public:
 	TileRect() {

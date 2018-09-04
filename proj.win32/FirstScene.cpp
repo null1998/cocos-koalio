@@ -255,22 +255,16 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 
 					player->velocity = ccp(0.f, player->velocity.y);
 
-					char chInput[512];
+					/*char chInput[512];
 					sprintf(chInput, "right tgid:%d\n", tileRect.tgid);
 					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);
-
+					OutputDebugString(w);*/
 				}
 				else if (isTileOnLeft && isMoveLeft) {
 					//左边的tile0 3 6
 					player->_desiredPosition = ccp(player->_desiredPosition.x + intersection.size.width, player->_desiredPosition.y);
 
 					player->velocity = ccp(0.f, player->velocity.y);
-
-					char chInput[512];
-					sprintf(chInput, "left tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);
 				}
 			}
 			
@@ -283,10 +277,7 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 
 					player->_onGround = true;
 
-					char chInput[512];
-					sprintf(chInput, "fall tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);
+					
 				}
 				else if (isTileOnTop && isJump) {
 					//考拉头顶到tile，要让主角向下移0 1 2
@@ -294,10 +285,7 @@ void FirstScene::checkForAndResolveCollisions(Player* player)
 				
 					player->velocity = ccp(player->velocity.x, 0.f);
 
-					char chInput[512];
-					sprintf(chInput, "jump tgid:%d\n", tileRect.tgid);
-					const wchar_t* w = Tools::GetWC(chInput);
-					OutputDebugString(w);
+				
 				}
 			}
 

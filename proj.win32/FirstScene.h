@@ -24,9 +24,9 @@ public:
 
 	TileRect tileRectFromTileCoords(cocos2d::CCPoint tileCoords);
 
-	TileRect* FirstScene::getSurroundingTilesAtPosition(cocos2d::CCPoint position, cocos2d::CCTMXLayer* layer);
+	TileRect* getSurroundingTilesAtPosition(cocos2d::CCPoint position, cocos2d::CCTMXLayer* layer);
 
-	void FirstScene::checkForAndResolveCollisions(Player* player);
+	void checkForAndResolveCollisions(Player* player);
 
 	void setViewpointCenter(cocos2d::CCPoint pos);
 

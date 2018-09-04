@@ -28,7 +28,8 @@ bool Player::setStatus(ANIMATION_STATUS status)
 	case RUN:
 		break;
 	case STAND:
-	    bRet = CCSprite::initWithFile("koalio_stand.png");
+	   // bRet = CCSprite::initWithFile("koalio_stand.png");
+		bRet = CCSprite::initWithFile("Mario.png");
 		velocity = ccp(0.f, 0.f);
 		break;
 	case FALL:
@@ -47,51 +48,44 @@ Player* Player::getInstance() {
 
 void Player::update(float delta) {
 
-	CCPoint gravity = ccp(0.f, -350.f);
+	CCPoint gravity = ccp(0.f, -350.f);//����
 
-	CCPoint gravityStep = ccpMult(gravity,delta);
+	CCPoint gravityStep = ccpMult(gravity,delta);//�������ٶ�
 
-	CCPoint forwardMove = ccp(800.f, 0.f); //前进速度，每秒前进8.f
+	CCPoint forwardMove = ccp(800.f, 0.f); //ǰ������
 
-	CCPoint forwardStep = ccpMult(forwardMove, delta);
+	CCPoint forwardStep = ccpMult(forwardMove, delta);//ǰ�����ٶ�
 
-	this->velocity = ccpAdd(this->velocity, gravityStep);
+	this->velocity = ccpAdd(this->velocity, gravityStep);//��ֱ�����ٶȸı�
 
-	this->velocity = ccp(this->velocity.x *0.9f, this->velocity.y);//模拟摩擦力
+	this->velocity = ccp(this->velocity.x *0.9f, this->velocity.y);//ģ��Ħ����
 
-	//CCPoint jumpForce = ccp(0.f, -30.f);
-
-	float jumpMax = 150.f;
-
-	if (this->_mightAsWellJump)
-	{
-		//this->velocity = ccpAdd(this->velocity, gravity);
-
-		SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
-	}
-	else if (!this->_mightAsWellJump&&this->velocity.y > jumpMax)
+	float jumpMax = 500.f;
+	//y�ٶ�����
+	
+	if (!this->_mightAsWellJump&&this->velocity.y > jumpMax)
 	{
 		this->velocity = ccp(this->velocity.x, jumpMax);
 	}
-
+	//ǰ��ʱˮƽ�����ٶȸı�
 	if (this->_forwardMarch)
 	{
-		this->velocity = ccpAdd(this->velocity, forwardStep); //加上向前的速度矢量
+		this->velocity = ccpAdd(this->velocity, forwardStep); //������ǰ���ٶ�ʸ��
 	}
-
+	//�൱��λ��
 	CCPoint s = ccpMult(this->velocity, delta);
-
+	//��һ֡��Ҫȥ��λ��
 	this->_desiredPosition = ccpAdd(this->getPosition(), s);
 
 }
 cocos2d::CCRect Player::collisionBoundingBox()
-{   //修改图片边缘空白的误差
+{   //�޸�ͼƬ��Ե�հ׵���������ײ����
 
-    cocos2d::Rect box = this->boundingBox();
+	CCRect box = this->boundingBox();
 	cocos2d::CCRect collisionBox = Tools::CCRectInset(box,3.f,0.f);
 
-	CCPoint diff = ccpSub(this->_desiredPosition, this->getPosition()); //玩家当前距离与目的地的差距
-
+	CCPoint diff = ccpSub(this->_desiredPosition, this->getPosition()); //��ҵ�ǰ������Ŀ�ĵصĲ��
+	//�õ�����Ҫȥ��λ�õ���ײ����
 	CCRect desireBoundingBox = Tools::CCRectOffset(collisionBox, diff.x, diff.y);
 
 	return desireBoundingBox;

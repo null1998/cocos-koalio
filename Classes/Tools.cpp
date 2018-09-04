@@ -3,7 +3,7 @@
 USING_NS_CC;
 using namespace std;
 
-cocos2d::CCRect Tools::CCRectInset(cocos2d::Rect& rect,float dx,float dy){
+cocos2d::CCRect Tools::CCRectInset(cocos2d::CCRect& rect,float dx,float dy){
 	 rect.origin.x += dx;
 	 rect.size.width -= dx * 2;
 
@@ -12,8 +12,8 @@ cocos2d::CCRect Tools::CCRectInset(cocos2d::Rect& rect,float dx,float dy){
 
 	 return rect;
  }
-//绉诲姩
-cocos2d::CCRect Tools::CCRectOffset(cocos2d::Rect& rect, float dx, float dy) {
+//移动
+cocos2d::CCRect Tools::CCRectOffset(cocos2d::CCRect& rect, float dx, float dy) {
 	rect.origin.x += dx;
 	
 	rect.origin.y += dy;
@@ -22,7 +22,7 @@ cocos2d::CCRect Tools::CCRectOffset(cocos2d::Rect& rect, float dx, float dy) {
 }
 cocos2d::CCRect Tools::getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::CCRect& tileRect)
 {  
-	//涓や釜鐭╁舰鐨勫洓涓í鍧愭爣涓庡洓涓旱鍧愭爣鍒嗗埆鍒嗙粍
+	//两个矩形的四个横坐标与四个纵坐标分别分组
 	float hor[4] = { playerRect.origin.x,playerRect.origin.x + playerRect.size.width,tileRect.origin.x,tileRect.origin.x + tileRect.size.width };
 
 	float ver[4] = { playerRect.origin.y,playerRect.origin.y + playerRect.size.height,tileRect.origin.y,tileRect.origin.y + tileRect.size.height };
@@ -35,11 +35,11 @@ cocos2d::CCRect Tools::getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::C
 
 }
 
-/*const wchar_t* Tools::GetWC(const char *c)
+const wchar_t* Tools::GetWC(const char *c)
 {
 	const size_t cSize = strlen(c) + 1;
 	wchar_t* wc = new wchar_t[cSize];
 	mbstowcs(wc, c, cSize);
 
 	return wc;
-}*/
+}

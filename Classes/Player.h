@@ -4,10 +4,10 @@
 #include "cocos2d.h"
 
 enum ANIMATION_STATUS{
-	STAND, // ç«™ 
-	JUMP, // è·³
-	RUN, // è·‘
-	FALL // è½ä¸‹
+	STAND, // Õ¾ 
+	JUMP, // Ìø
+	RUN, // ÅÜ
+	FALL // ÂäÏÂ
 };
 
 class Player : public cocos2d::CCSprite
@@ -23,9 +23,9 @@ public:
 
 	bool _onGround;
 
-	bool _forwardMarch;  //æ˜¯å¦å‘å‰èµ°
+	bool _forwardMarch;  //ÊÇ·ñÏòÇ°×ß
 
-	bool _mightAsWellJump; //å¯ä»¥è·³è·ƒå—ï¼Ÿ
+	bool _mightAsWellJump; //¿ÉÒÔÌøÔ¾Âğ£¿
 public:
 	Player(void);
 
