@@ -21,10 +21,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
  ****************************************************************************/
-
+#include "SignScene.h"
 #include "AppDelegate.h"
 #include "HelloWorldScene.h"
 #include "Player.h"
+
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -127,8 +128,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	player->velocity = ccp(0, 0);
 
     // create a scene. it's an autorelease object
-    auto scene = HelloWorld::createScene();
-
+    //auto scene = HelloWorld::createScene();
+	auto scene = SignScene::createScene();
     // run
     director->runWithScene(scene);
 

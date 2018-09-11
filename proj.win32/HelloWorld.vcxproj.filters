@@ -36,6 +36,9 @@
     <ClCompile Include="TileRect.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="SignScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -62,10 +65,18 @@
     <ClInclude Include="TileRect.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="SignScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
       <Filter>resource</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\Users\test\Documents\CHN_Strings.xml">
+      <Filter>resource</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

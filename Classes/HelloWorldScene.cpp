@@ -25,6 +25,7 @@
 #include "HelloWorldScene.h"
 #include "FirstScene.h"
 #include "SimpleAudioEngine.h"
+#include "Tools.h"
 
 USING_NS_CC;
 
@@ -55,7 +56,7 @@ bool HelloWorld::init()
 	//×ø±êÔ­µã
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = Label::createWithTTF("Super koalio", "fonts/Marker Felt.ttf", 80);
+    auto label = Label::createWithTTF("Super Mario", "fonts/Marker Felt.ttf", 80);
 
     if (label == nullptr)
     {

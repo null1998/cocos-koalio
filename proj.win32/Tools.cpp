@@ -35,6 +35,17 @@ cocos2d::CCRect Tools::getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::C
 
 }
 
+const char* Tools::toUTF8(const char* font) {
+
+	//创建词典类实例，将xml文件加载到词典中
+	auto *chnStrings = Dictionary::createWithContentsOfFile("CHN_Strings.xml");
+
+	//通过xml文件中的key获取value
+    const char *str1 = ((String*)chnStrings->objectForKey("string1"))->getCString();
+	
+	return str1;
+}
+
 const wchar_t* Tools::GetWC(const char *c)
 {
 	const size_t cSize = strlen(c) + 1;

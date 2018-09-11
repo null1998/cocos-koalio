@@ -50,9 +50,6 @@ bool FirstScene::init()
 
 	addChild(blueSky);
 
-
-	//map = CCTMXTiledMap::create("level1.tmx");
-
 	map= CCTMXTiledMap::create("untitled.tmx");
 
 	auto layer = GameLayer::createInstance();
@@ -72,8 +69,6 @@ bool FirstScene::init()
 			Player::getInstance()->velocity = ccp(Player::getInstance()->velocity.x, 385.f);
 
 			Player::getInstance()->_onGround = false;
-
-			//SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
 
 
 		}

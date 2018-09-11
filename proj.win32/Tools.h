@@ -12,6 +12,8 @@ public:
 	
 	static cocos2d::CCRect getIntersectsRect(cocos2d::CCRect& playerRect, cocos2d::CCRect& tileRect);
 
+	static const char* toUTF8(const char* font);
+
 	static const wchar_t* GetWC(const char *c);
 };
 #endif // !_TOOLS_H_
