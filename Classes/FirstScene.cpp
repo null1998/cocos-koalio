@@ -50,20 +50,21 @@ bool FirstScene::init()
 
 	addChild(blueSky);
 
-
-	//map = CCTMXTiledMap::create("level1.tmx");
-
 	map= CCTMXTiledMap::create("untitled.tmx");
 
 	auto layer = GameLayer::createInstance();
 
 	auto listener = EventListenerTouchOneByOne::create();
 
+	
+
 	listener->onTouchBegan = [](cocos2d::Touch* touch, cocos2d::Event* event) {
 
 		CCPoint touchLocation = touch->getLocation();
 
-		if (touchLocation.x > 640&&Player::getInstance()->_onGround) {
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+
+		if (touchLocation.x >visibleSize.width/2&&Player::getInstance()->_onGround) {
 
 			SimpleAudioEngine::sharedEngine()->playEffect("Mario_jump.mp3");
 
@@ -73,16 +74,14 @@ bool FirstScene::init()
 
 			Player::getInstance()->_onGround = false;
 
-			//SimpleAudioEngine::sharedEngine()->playEffect("jump.wav");
-
 
 		}
-		if(touchLocation.x <= 640&&touchLocation.x>=250){
+		if(touchLocation.x <= visibleSize.width / 2 &&touchLocation.x>= visibleSize.width / 6){
 
 			Player::getInstance()->_forwardMarch = true;
 			
 		}
-		if (touchLocation.x<250) {
+		if (touchLocation.x<visibleSize.width / 6) {
 
 			Player::getInstance()->_backMarch = true;
 
@@ -328,6 +327,8 @@ void FirstScene::gameOver(bool isWon) {
 
 	isGameOver = true;
 
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
 	CCString* result;
 	if (isWon)
 	{
@@ -345,13 +346,13 @@ void FirstScene::gameOver(bool isWon) {
 
 		SimpleAudioEngine::sharedEngine()->playEffect("Mario_died.mp3");
 	}
-	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 80);
+	CCLabelTTF* label = CCLabelTTF::create(result->getCString(), "Marker Felt", 120);
 
-	label->setPosition(Vec2(640.f,450.f));
+	label->setPosition(Vec2(visibleSize.width/2,visibleSize.height/3*2));
 
 	this->addChild(label);
 
-	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 40);
+	auto replayLabel = Label::createWithTTF("replay", "fonts/Marker Felt.ttf", 60);
 
 	replayLabel->enableGlow(Color4B::YELLOW);
 
@@ -372,11 +373,11 @@ void FirstScene::gameOver(bool isWon) {
 
 	auto replayMenu = Menu::create(replayMenuItem, NULL);
 
-	replayMenu->setPosition(Vec2(640.f,0.f));
+	replayMenu->setPosition(Vec2(visibleSize.width/2,0.f));
 
 	this->addChild(replayMenu);
 
-	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, 360.f));
+	CCMoveBy *slideIn = CCMoveBy::create(1.f, ccp(0, visibleSize.height/2));
 
 	replayMenu->runAction(slideIn);
 
