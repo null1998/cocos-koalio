@@ -56,11 +56,15 @@ bool FirstScene::init()
 
 	auto listener = EventListenerTouchOneByOne::create();
 
+	
+
 	listener->onTouchBegan = [](cocos2d::Touch* touch, cocos2d::Event* event) {
 
 		CCPoint touchLocation = touch->getLocation();
 
-		if (touchLocation.x > 640&&Player::getInstance()->_onGround) {
+		auto visibleSize = Director::getInstance()->getVisibleSize();
+
+		if (touchLocation.x >visibleSize.width/2&&Player::getInstance()->_onGround) {
 
 			SimpleAudioEngine::sharedEngine()->playEffect("Mario_jump.mp3");
 
@@ -72,12 +76,12 @@ bool FirstScene::init()
 
 
 		}
-		if(touchLocation.x <= 640&&touchLocation.x>=250){
+		if(touchLocation.x <= visibleSize.width / 2 &&touchLocation.x>= visibleSize.width / 6){
 
 			Player::getInstance()->_forwardMarch = true;
 			
 		}
-		if (touchLocation.x<250) {
+		if (touchLocation.x<visibleSize.width / 6) {
 
 			Player::getInstance()->_backMarch = true;
 

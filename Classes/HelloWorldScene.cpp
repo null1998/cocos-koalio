@@ -56,7 +56,7 @@ bool HelloWorld::init()
 	//×ø±êÔ­µã
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    auto label = Label::createWithTTF("Super Mario", "fonts/Marker Felt.ttf", 80);
+    auto label = Label::createWithTTF("Super Mario", "fonts/Marker Felt.ttf", 120);
 
     if (label == nullptr)
     {
@@ -65,7 +65,7 @@ bool HelloWorld::init()
     else
     {
         
-        label->setPosition(Vec2(visibleSize.width / 2 + origin.x,450.f));
+        label->setPosition(Vec2(visibleSize.width / 2 + origin.x,visibleSize.height/3*2));
 
 		label->enableGlow(Color4B::YELLOW);
         
@@ -73,7 +73,7 @@ bool HelloWorld::init()
     }
 
 	//playMenu
-	auto playLabel = Label::createWithTTF("play", "fonts/Marker Felt.ttf", 40);
+	auto playLabel = Label::createWithTTF("play", "fonts/Marker Felt.ttf", 60);
 
 	playLabel->enableGlow(Color4B::YELLOW);
 
@@ -94,7 +94,7 @@ bool HelloWorld::init()
 	this->addChild(playMenu);
 
 	//helpMenu
-	auto helpLabel = Label::createWithTTF("help", "fonts/Marker Felt.ttf", 40);
+	auto helpLabel = Label::createWithTTF("help", "fonts/Marker Felt.ttf", 60);
 
 	helpLabel->enableGlow(Color4B::YELLOW);
 
@@ -110,13 +110,13 @@ bool HelloWorld::init()
 
 	auto helpMenu = Menu::create(helpMenuItem, NULL);
 
-	helpMenu->setPosition(Vec2(visibleSize.width / 2 + origin.x, 260.f));
+	helpMenu->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/8*3));
 
 	this->addChild(helpMenu);
 
 
 	//quitMenu
-	auto quitLabel = Label::createWithTTF("quit", "fonts/Marker Felt.ttf", 40);
+	auto quitLabel = Label::createWithTTF("quit", "fonts/Marker Felt.ttf", 60);
 
 	quitLabel->enableGlow(Color4B::YELLOW);
 
@@ -133,7 +133,7 @@ bool HelloWorld::init()
 
 	auto quitMenu = Menu::create(quitMenuItem, NULL);
 
-	quitMenu->setPosition(Vec2(visibleSize.width / 2 + origin.x, 160.f));
+	quitMenu->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/4));
 
 	this->addChild(quitMenu);
 

@@ -23,9 +23,9 @@ bool SignScene::init()
 	//通过xml文件中的key获取value
 	const char *str1 = ((String*)chnStrings->objectForKey("string1"))->getCString();
 
-	auto sign = Label::createWithSystemFont(str1, "Arial", 60);
+	auto sign = Label::createWithSystemFont(str1, "Arial", 80);
 
-	sign->setPosition(Vec2(visibleSize.width / 2, 500.f));
+	sign->setPosition(Vec2(visibleSize.width / 2, visibleSize.height/3*2));
 
 	sign->enableGlow(Color4B::YELLOW);
 
@@ -35,7 +35,7 @@ bool SignScene::init()
 
 	const char *str2 = ((String*)chnStrings->objectForKey("string2"))->getCString();
 
-	auto playLabel = Label::createWithSystemFont(str2, "Arial", 30);
+	auto playLabel = Label::createWithSystemFont(str2, "Arial", 60);
 
 	playLabel->enableGlow(Color4B::YELLOW);
 
@@ -46,7 +46,7 @@ bool SignScene::init()
 
 	auto playMenu = Menu::create(playMenuItem, NULL);
 
-	playMenu->setPosition(Vec2(visibleSize.width / 2, 150.f));
+	playMenu->setPosition(Vec2(visibleSize.width / 2, visibleSize.height/4));
 
 	this->addChild(playMenu);
 
