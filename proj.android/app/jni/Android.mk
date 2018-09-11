@@ -18,7 +18,8 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/GameLayer.cpp\
                    $(LOCAL_PATH)/../../../Classes/Player.cpp\
                    $(LOCAL_PATH)/../../../Classes/TileRect.cpp\
-                   $(LOCAL_PATH)/../../../Classes/Tools.cpp
+                   $(LOCAL_PATH)/../../../Classes/Tools.cpp\
+                   $(LOCAL_PATH)/../../../Classes/SignScene.cpp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../../Classes
 
 # _COCOS_HEADER_ANDROID_BEGIN
